@@ -33,3 +33,24 @@ describe('Automated Deployment PipelineAgent', () => {
     });
   });
 });
+
+// FEATURE UPDATE: Automated Deployment Pipeline
+// Date: 2023-12-26
+import { AutomatedDeploymentPipelineAgent } from '@/lib/agents/automated-deployment-pipeline';
+
+describe('Automated Deployment PipelineAgent', () => {
+  let agent: AutomatedDeploymentPipelineAgent;
+
+  beforeEach(() => {
+    agent = new AutomatedDeploymentPipelineAgent({
+      name: 'Test Automated Deployment Pipeline Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('shoul...
