@@ -1,0 +1,35 @@
+import { PerformanceOptimizationEngineAgent } from '@/lib/agents/performance-optimization-engine';
+
+describe('Performance Optimization EngineAgent', () => {
+  let agent: PerformanceOptimizationEngineAgent;
+
+  beforeEach(() => {
+    agent = new PerformanceOptimizationEngineAgent({
+      name: 'Test Performance Optimization Engine Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('should process input successfully', async () => {
+      const result = await agent.execute('test input');
+      expect(result).toContain('Performance Optimization Engine completed successfully');
+    });
+
+    it('should handle empty input', async () => {
+      const result = await agent.execute('');
+      expect(result).toBeDefined();
+    });
+  });
+
+  describe('process', () => {
+    it('should process data correctly', async () => {
+      const result = await agent.process({ test: 'data' });
+      expect(result.status).toBe('success');
+    });
+  });
+});
