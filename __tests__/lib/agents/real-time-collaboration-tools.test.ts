@@ -33,3 +33,24 @@ describe('Real-time Collaboration ToolsAgent', () => {
     });
   });
 });
+
+// FEATURE UPDATE: Real-time Collaboration Tools
+// Date: 2024-01-19
+import { Real-timeCollaborationToolsAgent } from '@/lib/agents/real-time-collaboration-tools';
+
+describe('Real-time Collaboration ToolsAgent', () => {
+  let agent: Real-timeCollaborationToolsAgent;
+
+  beforeEach(() => {
+    agent = new Real-timeCollaborationToolsAgent({
+      name: 'Test Real-time Collaboration Tools Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('shoul...
