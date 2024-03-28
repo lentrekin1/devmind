@@ -1,6 +1,6 @@
 {
   "name": "devmind",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "description": "AI-powered development workflow orchestration platform",
   "scripts": {
@@ -17,7 +17,10 @@
     "@prisma/client": "^5.0.0",
     "prisma": "^5.0.0",
     "@langchain/core": "^0.1.0",
-    "@langchain/openai": "^0.1.0"
+    "@langchain/openai": "^0.1.0",
+    "pinecone-database": "^1.0.0",
+    "uuid": "^9.0.0",
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "^18",
