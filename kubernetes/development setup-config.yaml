@@ -65,3 +65,27 @@ data:
         metrics: prometheus
         tracing: jaeger
         logging: elasticsearch...
+
+
+// CONFIG UPDATE: Development Setup
+// Date: 2024-04-20
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: devmind-development setup-config
+  namespace: devmind-production
+data:
+  config.yaml: |
+    development setup:
+      enabled: true
+      mode: enterprise
+      security:
+        encryption: AES-256
+        compliance: SOC2
+      performance:
+        caching: redis-cluster
+        scaling: auto
+      monitoring:
+        metrics: prometheus
+        tracing: jaeger
+        logging: elasticsearch...
