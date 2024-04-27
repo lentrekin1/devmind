@@ -55,3 +55,26 @@ describe('Custom Agent BuilderAgent', () => {
   describe('execute', () => {
     it('should process input successfully', async () => {
       con...
+
+
+// FEATURE UPDATE: Custom Agent Builder
+// Date: 2024-04-26
+import { CustomAgentBuilderAgent } from '@/lib/agents/custom-agent-builder';
+
+describe('Custom Agent BuilderAgent', () => {
+  let agent: CustomAgentBuilderAgent;
+
+  beforeEach(() => {
+    agent = new CustomAgentBuilderAgent({
+      name: 'Test Custom Agent Builder Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('should process input successfully', async () => {
+      con...
