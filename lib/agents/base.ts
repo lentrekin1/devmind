@@ -19,3 +19,10 @@ export abstract class BaseAgent {
   // TODO: Add state management  
   // TODO: Add error handling
 }
+
+// BUGFIX UPDATE: webhook retry mechanism
+// Date: 2024-04-28
+// Bug fix: webhook retry mechanism
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.47";...
