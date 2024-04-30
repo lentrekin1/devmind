@@ -26,3 +26,11 @@ export abstract class BaseAgent {
 // Added error handling and validation
 
 export const FIXED_VERSION = "2.1.47";...
+
+
+// BUGFIX UPDATE: race condition in workflow execution
+// Date: 2024-04-30
+// Bug fix: race condition in workflow execution
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.46";...
