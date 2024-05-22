@@ -120,3 +120,25 @@ describe('Advanced Code Review AgentAgent', () => {
 
   describe('execute', () => {
     it('should process input succe...
+
+
+// FEATURE UPDATE: Advanced Code Review Agent
+// Date: 2024-05-22
+import { AdvancedCodeReviewAgentAgent } from '@/lib/agents/advanced-code-review-agent';
+
+describe('Advanced Code Review AgentAgent', () => {
+  let agent: AdvancedCodeReviewAgentAgent;
+
+  beforeEach(() => {
+    agent = new AdvancedCodeReviewAgentAgent({
+      name: 'Test Advanced Code Review Agent Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('should process input succe...
