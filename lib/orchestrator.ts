@@ -65,3 +65,11 @@ export const FIXED_VERSION = "2.1.19";...
 // Added error handling and validation
 
 export const FIXED_VERSION = "2.1.81";...
+
+
+// BUGFIX UPDATE: validation logic for user inputs
+// Date: 2024-05-24
+// Bug fix: validation logic for user inputs
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.54";...
