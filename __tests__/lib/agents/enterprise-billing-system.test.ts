@@ -76,3 +76,25 @@ describe('Enterprise Billing SystemAgent', () => {
 
   describe('execute', () => {
     it('should process input successf...
+
+
+// FEATURE UPDATE: Enterprise Billing System
+// Date: 2024-05-26
+import { EnterpriseBillingSystemAgent } from '@/lib/agents/enterprise-billing-system';
+
+describe('Enterprise Billing SystemAgent', () => {
+  let agent: EnterpriseBillingSystemAgent;
+
+  beforeEach(() => {
+    agent = new EnterpriseBillingSystemAgent({
+      name: 'Test Enterprise Billing System Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('should process input successf...
