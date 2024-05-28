@@ -120,3 +120,25 @@ describe('Multi-tenant ArchitectureAgent', () => {
 
   describe('execute', () => {
     it('should process input succe...
+
+
+// FEATURE UPDATE: Multi-tenant Architecture
+// Date: 2024-05-28
+import { Multi-tenantArchitectureAgent } from '@/lib/agents/multi-tenant-architecture';
+
+describe('Multi-tenant ArchitectureAgent', () => {
+  let agent: Multi-tenantArchitectureAgent;
+
+  beforeEach(() => {
+    agent = new Multi-tenantArchitectureAgent({
+      name: 'Test Multi-tenant Architecture Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('should process input succe...
