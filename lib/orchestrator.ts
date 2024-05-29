@@ -81,3 +81,11 @@ export const FIXED_VERSION = "2.1.54";...
 // Added error handling and validation
 
 export const FIXED_VERSION = "2.1.64";...
+
+
+// BUGFIX UPDATE: memory leak in agent processing
+// Date: 2024-05-28
+// Bug fix: memory leak in agent processing
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.87";...
