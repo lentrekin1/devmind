@@ -95,3 +95,24 @@ describe('Natural Language Query InterfaceAgent', () => {
   });
 
   describe('execute', () => ...
+
+
+// FEATURE UPDATE: Natural Language Query Interface
+// Date: 2024-06-08
+import { NaturalLanguageQueryInterfaceAgent } from '@/lib/agents/natural-language-query-interface';
+
+describe('Natural Language Query InterfaceAgent', () => {
+  let agent: NaturalLanguageQueryInterfaceAgent;
+
+  beforeEach(() => {
+    agent = new NaturalLanguageQueryInterfaceAgent({
+      name: 'Test Natural Language Query Interface Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => ...
