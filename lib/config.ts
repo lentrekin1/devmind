@@ -61,3 +61,11 @@ export function loadConfig(): DevMindConfig {
 // Added error handling and validation
 
 export const FIXED_VERSION = "2.1.7";...
+
+
+// BUGFIX UPDATE: caching invalidation issues
+// Date: 2024-06-13
+// Bug fix: caching invalidation issues
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.97";...
