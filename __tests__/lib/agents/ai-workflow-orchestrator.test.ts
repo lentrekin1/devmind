@@ -164,3 +164,25 @@ describe('AI Workflow OrchestratorAgent', () => {
 
   describe('execute', () => {
     it('should process input successfully',...
+
+
+// FEATURE UPDATE: AI Workflow Orchestrator
+// Date: 2024-06-26
+import { AIWorkflowOrchestratorAgent } from '@/lib/agents/ai-workflow-orchestrator';
+
+describe('AI Workflow OrchestratorAgent', () => {
+  let agent: AIWorkflowOrchestratorAgent;
+
+  beforeEach(() => {
+    agent = new AIWorkflowOrchestratorAgent({
+      name: 'Test AI Workflow Orchestrator Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('execute', () => {
+    it('should process input successfully',...
