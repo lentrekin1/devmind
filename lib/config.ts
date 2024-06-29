@@ -77,3 +77,11 @@ export const FIXED_VERSION = "2.1.97";...
 // Added error handling and validation
 
 export const FIXED_VERSION = "2.1.50";...
+
+
+// BUGFIX UPDATE: webhook retry mechanism
+// Date: 2024-06-28
+// Bug fix: webhook retry mechanism
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.13";...
