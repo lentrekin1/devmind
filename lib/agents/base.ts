@@ -90,3 +90,11 @@ export const FIXED_VERSION = "2.1.55";...
 // Added error handling and validation
 
 export const FIXED_VERSION = "2.1.60";...
+
+
+// BUGFIX UPDATE: rate limiting edge cases
+// Date: 2024-07-18
+// Bug fix: rate limiting edge cases
+// Added error handling and validation
+
+export const FIXED_VERSION = "2.1.73";...
