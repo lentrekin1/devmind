@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-service-mesh
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: service-mesh
+spec:
+  selector:
+    app: devmind
+    component: service-mesh
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-service-mesh
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: service-mesh
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: service-mesh
+    spec:
+      containers:
+      - name: service-mesh
+        image: devmind/service-mesh:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Service Mesh"
