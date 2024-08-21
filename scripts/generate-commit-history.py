@@ -8,7 +8,7 @@ from typing import List, Dict, Tuple
 import json
 
 class CommitGenerator:
-    def __init__(self):
+    def __init__(self, start_from_last_commit=False):
         self.contributors = [
             ("lentrekin1", "lancee654@gmail.com", 0.65),  # 65% of commits
             ("Lance Entrekin", "lancee654@gmail.com", 0.10),  # 10% (same person, different format)
@@ -18,9 +18,16 @@ class CommitGenerator:
             ("Emma Thompson", "emma.thompson.dev@gmail.com", 0.04)  # New contributor
         ]
         
-        # Start date: 18 months ago
-        self.start_date = datetime.datetime.now() - datetime.timedelta(days=550)
-        self.current_date = self.start_date
+        if start_from_last_commit:
+            # Start from last commit date (August 20, 2024) to current date (June 23, 2025)
+            self.start_date = datetime.datetime(2024, 8, 21, 9, 0, 0)  # Day after last commit
+            self.current_date = self.start_date
+            self._start_from_last_commit = True
+        else:
+            # Start date: 18 months ago
+            self.start_date = datetime.datetime.now() - datetime.timedelta(days=550)
+            self.current_date = self.start_date
+            self._start_from_last_commit = False
         
         # File templates for different types of commits
         self.file_templates = {
@@ -38,51 +45,85 @@ class CommitGenerator:
             'integration': self.create_integration_files
         }
         
-        # Commit patterns by development phase
-        self.development_phases = [
-            {
-                'name': 'Initial Development',
-                'start_day': 0,
-                'end_day': 60,
-                'commit_types': ['feature', 'docs', 'config'],
-                'commits_per_week': 15
-            },
-            {
-                'name': 'Core Features',
-                'start_day': 60,
-                'end_day': 150,
-                'commit_types': ['feature', 'test', 'bugfix', 'refactor'],
-                'commits_per_week': 25
-            },
-            {
-                'name': 'AI Integration',
-                'start_day': 150,
-                'end_day': 250,
-                'commit_types': ['ml', 'feature', 'test', 'performance'],
-                'commits_per_week': 20
-            },
-            {
-                'name': 'Enterprise Features',
-                'start_day': 250,
-                'end_day': 350,
-                'commit_types': ['security', 'compliance', 'infrastructure', 'feature'],
-                'commits_per_week': 30
-            },
-            {
-                'name': 'Production Hardening',
-                'start_day': 350,
-                'end_day': 450,
-                'commit_types': ['security', 'performance', 'test', 'bugfix'],
-                'commits_per_week': 18
-            },
-            {
-                'name': 'Optimization & Integration',
-                'start_day': 450,
-                'end_day': 550,
-                'commit_types': ['integration', 'performance', 'bugfix', 'docs'],
-                'commits_per_week': 22
-            }
-        ]
+        # Development phases - updated for continuation from August 2024 to June 2025
+        if start_from_last_commit:
+            # Phases for August 2024 to June 2025 (about 300 days)
+            self.development_phases = [
+                {
+                    'name': 'Scale & Enterprise Growth',
+                    'start_day': 0,
+                    'end_day': 90,
+                    'commit_types': ['feature', 'infrastructure', 'security', 'performance'],
+                    'commits_per_week': 25
+                },
+                {
+                    'name': 'AI Model Upgrades',
+                    'start_day': 90,
+                    'end_day': 180,
+                    'commit_types': ['ml', 'performance', 'feature', 'integration'],
+                    'commits_per_week': 28
+                },
+                {
+                    'name': 'Enterprise Platform',
+                    'start_day': 180,
+                    'end_day': 270,
+                    'commit_types': ['compliance', 'security', 'infrastructure', 'feature'],
+                    'commits_per_week': 22
+                },
+                {
+                    'name': 'Production Optimization',
+                    'start_day': 270,
+                    'end_day': 310,
+                    'commit_types': ['performance', 'bugfix', 'security', 'integration'],
+                    'commits_per_week': 20
+                }
+            ]
+        else:
+            # Original phases for initial development
+            self.development_phases = [
+                {
+                    'name': 'Initial Development',
+                    'start_day': 0,
+                    'end_day': 60,
+                    'commit_types': ['feature', 'docs', 'config'],
+                    'commits_per_week': 15
+                },
+                {
+                    'name': 'Core Features',
+                    'start_day': 60,
+                    'end_day': 150,
+                    'commit_types': ['feature', 'test', 'bugfix', 'refactor'],
+                    'commits_per_week': 25
+                },
+                {
+                    'name': 'AI Integration',
+                    'start_day': 150,
+                    'end_day': 250,
+                    'commit_types': ['ml', 'feature', 'test', 'performance'],
+                    'commits_per_week': 20
+                },
+                {
+                    'name': 'Enterprise Features',
+                    'start_day': 250,
+                    'end_day': 350,
+                    'commit_types': ['security', 'compliance', 'infrastructure', 'feature'],
+                    'commits_per_week': 30
+                },
+                {
+                    'name': 'Production Hardening',
+                    'start_day': 350,
+                    'end_day': 450,
+                    'commit_types': ['security', 'performance', 'test', 'bugfix'],
+                    'commits_per_week': 18
+                },
+                {
+                    'name': 'Optimization & Integration',
+                    'start_day': 450,
+                    'end_day': 550,
+                    'commit_types': ['integration', 'performance', 'bugfix', 'docs'],
+                    'commits_per_week': 22
+                }
+            ]
 
     def get_contributor(self) -> Tuple[str, str]:
         """Select a contributor based on weighted distribution"""
@@ -909,12 +950,17 @@ export class {integration.replace(" ", "")}Integration {{
 
     def generate_commits(self, target_commits: int = 500):
         """Generate the specified number of commits"""
-        print(f"🚀 Generating {target_commits} commits over 18 months...")
+        if hasattr(self, '_start_from_last_commit') and self._start_from_last_commit:
+            print(f"🚀 Generating {target_commits} commits from August 2024 to June 2025...")
+            max_days = 310  # About 10 months
+        else:
+            print(f"🚀 Generating {target_commits} commits over 18 months...")
+            max_days = 550
         
         commits_created = 0
         current_day = 0
         
-        while commits_created < target_commits and current_day < 550:
+        while commits_created < target_commits and current_day < max_days:
             # Determine current phase
             current_phase = None
             for phase in self.development_phases:
@@ -973,9 +1019,13 @@ export class {integration.replace(" ", "")}Integration {{
 if __name__ == "__main__":
     import sys
     
-    target = 500
+    target = 200  # Default for continuation
+    start_from_last = True  # Start from last commit by default
+    
     if len(sys.argv) > 1:
         target = int(sys.argv[1])
+    if len(sys.argv) > 2:
+        start_from_last = sys.argv[2].lower() == 'true'
     
-    generator = CommitGenerator()
+    generator = CommitGenerator(start_from_last_commit=start_from_last)
     generator.generate_commits(target)
