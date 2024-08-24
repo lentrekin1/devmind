@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-database-replication
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: database-replication
+spec:
+  selector:
+    app: devmind
+    component: database-replication
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-database-replication
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: database-replication
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: database-replication
+    spec:
+      containers:
+      - name: database-replication
+        image: devmind/database-replication:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Database Replication"
