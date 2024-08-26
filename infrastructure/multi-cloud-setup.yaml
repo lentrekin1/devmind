@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-multi-cloud-setup
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: multi-cloud-setup
+spec:
+  selector:
+    app: devmind
+    component: multi-cloud-setup
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-multi-cloud-setup
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: multi-cloud-setup
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: multi-cloud-setup
+    spec:
+      containers:
+      - name: multi-cloud-setup
+        image: devmind/multi-cloud-setup:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Multi-cloud Setup"
