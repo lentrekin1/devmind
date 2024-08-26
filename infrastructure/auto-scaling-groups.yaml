@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-auto-scaling-groups
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: auto-scaling-groups
+spec:
+  selector:
+    app: devmind
+    component: auto-scaling-groups
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-auto-scaling-groups
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: auto-scaling-groups
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: auto-scaling-groups
+    spec:
+      containers:
+      - name: auto-scaling-groups
+        image: devmind/auto-scaling-groups:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Auto-scaling Groups"
