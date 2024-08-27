@@ -50,3 +50,35 @@ spec:
           value: "production"
         - name: COMPONENT
           value: "Multi-cloud Setup"
+
+// INFRASTRUCTURE UPDATE: Multi-cloud Setup
+// Date: 2024-08-27
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-multi-cloud-setup
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: multi-cloud-setup
+spec:
+  selector:
+    app: devmind
+    component: multi-cloud-setup
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-multi-cloud-setup
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+   ...
