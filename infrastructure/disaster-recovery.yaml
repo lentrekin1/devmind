@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-disaster-recovery
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: disaster-recovery
+spec:
+  selector:
+    app: devmind
+    component: disaster-recovery
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-disaster-recovery
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: disaster-recovery
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: disaster-recovery
+    spec:
+      containers:
+      - name: disaster-recovery
+        image: devmind/disaster-recovery:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Disaster Recovery"
