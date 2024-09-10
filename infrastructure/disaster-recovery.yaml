@@ -50,3 +50,35 @@ spec:
           value: "production"
         - name: COMPONENT
           value: "Disaster Recovery"
+
+// INFRASTRUCTURE UPDATE: Disaster Recovery
+// Date: 2024-09-10
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-disaster-recovery
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: disaster-recovery
+spec:
+  selector:
+    app: devmind
+    component: disaster-recovery
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-disaster-recovery
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+   ...
