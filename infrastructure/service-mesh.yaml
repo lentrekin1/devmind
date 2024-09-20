@@ -82,3 +82,36 @@ spec:
     matchLabels:
       app: devmind
       component: servic...
+
+
+// INFRASTRUCTURE UPDATE: Service Mesh
+// Date: 2024-09-20
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-service-mesh
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: service-mesh
+spec:
+  selector:
+    app: devmind
+    component: service-mesh
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-service-mesh
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: servic...
