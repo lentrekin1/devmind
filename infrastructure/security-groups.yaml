@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-security-groups
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: security-groups
+spec:
+  selector:
+    app: devmind
+    component: security-groups
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-security-groups
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: security-groups
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: security-groups
+    spec:
+      containers:
+      - name: security-groups
+        image: devmind/security-groups:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Security Groups"
