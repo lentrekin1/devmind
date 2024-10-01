@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-monitoring-infrastructure
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: monitoring-infrastructure
+spec:
+  selector:
+    app: devmind
+    component: monitoring-infrastructure
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-monitoring-infrastructure
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: monitoring-infrastructure
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: monitoring-infrastructure
+    spec:
+      containers:
+      - name: monitoring-infrastructure
+        image: devmind/monitoring-infrastructure:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Monitoring Infrastructure"
