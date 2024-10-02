@@ -50,3 +50,34 @@ spec:
           value: "production"
         - name: COMPONENT
           value: "Container Registry"
+
+// INFRASTRUCTURE UPDATE: Container Registry
+// Date: 2024-10-02
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-container-registry
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: container-registry
+spec:
+  selector:
+    app: devmind
+    component: container-registry
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-container-registry
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind...
