@@ -113,3 +113,35 @@ spec:
   selector:
     matchLabels:
       app:...
+
+
+// INFRASTRUCTURE UPDATE: Database Replication
+// Date: 2024-10-07
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-database-replication
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: database-replication
+spec:
+  selector:
+    app: devmind
+    component: database-replication
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-database-replication
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app:...
