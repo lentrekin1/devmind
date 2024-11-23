@@ -50,3 +50,33 @@ spec:
           value: "production"
         - name: COMPONENT
           value: "Monitoring Infrastructure"
+
+// INFRASTRUCTURE UPDATE: Monitoring Infrastructure
+// Date: 2024-11-22
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-monitoring-infrastructure
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: monitoring-infrastructure
+spec:
+  selector:
+    app: devmind
+    component: monitoring-infrastructure
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-monitoring-infrastructure
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    mat...
