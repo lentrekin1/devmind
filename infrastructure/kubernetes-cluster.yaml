@@ -113,3 +113,35 @@ spec:
   selector:
     matchLabels:
       app: devmind...
+
+
+// INFRASTRUCTURE UPDATE: Kubernetes Cluster
+// Date: 2024-11-24
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-kubernetes-cluster
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: kubernetes-cluster
+spec:
+  selector:
+    app: devmind
+    component: kubernetes-cluster
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-kubernetes-cluster
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind...
