@@ -82,3 +82,36 @@ spec:
     matchLabels:
       app: devmind
       compo...
+
+
+// INFRASTRUCTURE UPDATE: Security Groups
+// Date: 2024-12-08
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-security-groups
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: security-groups
+spec:
+  selector:
+    app: devmind
+    component: security-groups
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-security-groups
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      compo...
