@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-network-configuration
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: network-configuration
+spec:
+  selector:
+    app: devmind
+    component: network-configuration
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-network-configuration
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devmind
+      component: network-configuration
+  template:
+    metadata:
+      labels:
+        app: devmind
+        component: network-configuration
+    spec:
+      containers:
+      - name: network-configuration
+        image: devmind/network-configuration:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: COMPONENT
+          value: "Network Configuration"
