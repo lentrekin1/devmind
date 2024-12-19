@@ -1,0 +1,242 @@
+version: '3.8'
+
+services:
+  devmind-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      args:
+        - NODE_ENV=production
+        - BUILD_VERSION=${BUILD_VERSION}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://devmind:${DB_PASSWORD}@db-primary:5432/devmind
+      - DATABASE_REPLICA_URL=postgresql://devmind:${DB_PASSWORD}@db-replica:5432/devmind
+      - REDIS_CLUSTER_URL=redis://redis-cluster:7000,redis://redis-cluster:7001,redis://redis-cluster:7002
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - PINECONE_ENVIRONMENT=${PINECONE_ENVIRONMENT}
+      - CHROMA_DB_URL=http://chromadb:8000
+      - VECTOR_DB_EMBEDDING_MODEL=text-embedding-3-large
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+      - ELASTICSEARCH_URL=https://elasticsearch:9200
+      - KUBERNETES_SERVICE_ACCOUNT_TOKEN=${K8S_TOKEN}
+      - VAULT_TOKEN=${VAULT_TOKEN}
+      - VAULT_ADDR=https://vault:8200
+      - PROMETHEUS_PUSHGATEWAY=http://prometheus-pushgateway:9091
+      - JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - SENTRY_DSN=${SENTRY_DSN}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=us-west-2
+      - GCP_SERVICE_ACCOUNT_KEY=${GCP_SERVICE_ACCOUNT_KEY}
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
+      - AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+    depends_on:
+      - db-primary
+      - db-replica
+      - redis-cluster
+      - elasticsearch
+      - vault
+      - chromadb
+    volumes:
+      - ./logs:/app/logs
+      - ./certs:/app/certs:ro
+      - devmind-data:/app/data
+    networks:
+      - devmind-network
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
+  db-primary:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=devmind
+      - POSTGRES_USER=devmind
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_REPLICATION_MODE=master
+      - POSTGRES_REPLICATION_USER=replicator
+      - POSTGRES_REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-primary-data:/var/lib/postgresql/data
+      - ./postgres/master.conf:/etc/postgresql/postgresql.conf
+      - ./postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+    networks:
+      - devmind-network
+
+  db-replica:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_REPLICATION_MODE=slave
+      - POSTGRES_REPLICATION_USER=replicator
+      - POSTGRES_REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
+      - POSTGRES_MASTER_SERVICE=db-primary
+    volumes:
+      - postgres-replica-data:/var/lib/postgresql/data
+    depends_on:
+      - db-primary
+    networks:
+      - devmind-network
+
+  redis-cluster:
+    image: redis/redis-stack:7.2.0-v0
+    ports:
+      - "7000-7005:7000-7005"
+      - "8001:8001"
+    environment:
+      - REDIS_CLUSTER_ENABLED=yes
+      - REDIS_CLUSTER_NODES=6
+      - REDIS_CLUSTER_REPLICAS=1
+    volumes:
+      - redis-cluster-data:/data
+      - ./redis/redis-cluster.conf:/etc/redis/redis.conf
+    networks:
+      - devmind-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    networks:
+      - devmind-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - devmind-network
+
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:0.4.15
+    environment:
+      - CHROMA_SERVER_AUTH_CREDENTIALS=${CHROMA_AUTH_TOKEN}
+      - CHROMA_SERVER_AUTH_PROVIDER=chromadb.auth.token.TokenAuthServerProvider
+    ports:
+      - "8000:8000"
+    volumes:
+      - chromadb-data:/chroma/chroma
+    networks:
+      - devmind-network
+
+  vault:
+    image: hashicorp/vault:1.15
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT_TOKEN}
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    ports:
+      - "8200:8200"
+    volumes:
+      - vault-data:/vault/data
+      - ./vault/config.hcl:/vault/config/config.hcl
+    networks:
+      - devmind-network
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    networks:
+      - devmind-network
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - devmind-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.50
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - devmind-network
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/htpasswd:/etc/nginx/htpasswd
+    depends_on:
+      - devmind-app
+    networks:
+      - devmind-network
+
+volumes:
+  postgres-primary-data:
+  postgres-replica-data:
+  redis-cluster-data:
+  elasticsearch-data:
+  chromadb-data:
+  vault-data:
+  prometheus-data:
+  grafana-data:
+  devmind-data:
+
+networks:
+  devmind-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
