@@ -139,3 +139,33 @@ metadata:
 spec:
   replicas: 3
   selector:...
+
+
+// INFRASTRUCTURE UPDATE: Load Balancer Configuration
+// Date: 2024-12-21
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-load-balancer-configuration
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: load-balancer-configuration
+spec:
+  selector:
+    app: devmind
+    component: load-balancer-configuration
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-load-balancer-configuration
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:...
