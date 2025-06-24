@@ -2,12 +2,9 @@
 
 <div align="center">
 
-![DevMind Logo](https://via.placeholder.com/200x80/4A90E2/FFFFFF?text=DevMind)
-
 **Intelligent workflow automation for development teams powered by AI agents**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI/CD](https://github.com/lentrekin1/devmind/workflows/CI/badge.svg)](https://github.com/lentrekin1/devmind/actions)
 [![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)](https://github.com/lentrekin1/devmind)
 
 [🚀 Getting Started](#getting-started) • [📖 Documentation](#-ai-agents) • [🐛 Issues](https://github.com/lentrekin1/devmind/issues)
