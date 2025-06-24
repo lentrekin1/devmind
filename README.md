@@ -10,7 +10,7 @@
 [![CI/CD](https://github.com/lentrekin1/devmind/workflows/CI/badge.svg)](https://github.com/lentrekin1/devmind/actions)
 [![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)](https://github.com/lentrekin1/devmind)
 
-[🚀 Getting Started](#getting-started) • [📖 Documentation](https://docs.devmind.ai) • [🐛 Issues](https://github.com/lentrekin1/devmind/issues)
+[🚀 Getting Started](#getting-started) • [📖 Documentation](#-ai-agents) • [🐛 Issues](https://github.com/lentrekin1/devmind/issues)
 
 </div>
 
@@ -121,7 +121,7 @@ DevMind is open-source software licensed under the [MIT License](LICENSE).
 
 <div align="center">
 
-**[📖 Documentation](https://docs.devmind.ai)** • **[🐛 Report Issues](https://github.com/lentrekin1/devmind/issues)**
+**[📖 Documentation](#-ai-agents)** • **[🐛 Report Issues](https://github.com/lentrekin1/devmind/issues)**
 
 Made with ❤️ by the DevMind Team
 
