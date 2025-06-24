@@ -107,7 +107,7 @@ pip install -r requirements-gpu.txt  # For GPU acceleration
 
 # Configure environment
 cp .env.example .env
-# Configure 40+ environment variables:
+# Configure environment variables:
 # - Database connection strings with SSL parameters
 # - API keys for OpenAI, monitoring, and cloud services  
 # - Kubernetes configuration paths and service account tokens
