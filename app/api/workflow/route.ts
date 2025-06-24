@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AgentOrchestrator, WorkflowStep } from '@/lib/orchestrator';
+import { logger } from '@/lib/utils/logger';
+import { corsMiddleware } from '@/lib/middleware/cors';
 import { CodeReviewAgent } from '@/lib/agents/code-review';
 import { TestingAgent } from '@/lib/agents/testing';
 import { DeploymentAgent } from '@/lib/agents/deployment';
@@ -35,6 +37,15 @@ orchestrator.registerAgent('deployment', new DeploymentAgent({
 }));
 
 export async function POST(request: NextRequest) {
+  // Apply CORS middleware
+  const corsResponse = corsMiddleware(request);
+  if (corsResponse.status !== 200) {
+    return corsResponse;
+  }
+
+  const requestId = crypto.randomUUID();
+  logger.info('Workflow execution request received', { requestId });
+
   try {
     const { workflow } = await request.json();
     
@@ -82,6 +93,12 @@ export async function POST(request: NextRequest) {
     const results = await orchestrator.executeWorkflow(steps);
     const executionState = orchestrator.getExecutionState();
 
+    logger.info('Workflow execution completed successfully', {
+      requestId,
+      stepsExecuted: steps.length,
+      executionTime: Date.now() - parseInt(requestId.slice(-8), 16)
+    });
+
     return NextResponse.json({
       success: true,
       results: Object.fromEntries(results),
@@ -90,7 +107,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Workflow execution error:', error);
+    logger.error('Workflow execution error', error as Error, { requestId });
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }
