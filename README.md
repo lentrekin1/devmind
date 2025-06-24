@@ -16,17 +16,17 @@
 
 ## 🎯 Overview
 
-DevMind revolutionizes software development workflows by orchestrating intelligent AI agents that handle code review, testing, deployment, and project management tasks. Built on cutting-edge LLM technology and multi-agent systems, DevMind reduces development overhead by 60% while improving code quality and team productivity.
+DevMind is an intelligent development workflow orchestration platform that uses AI agents to automate code review, testing, deployment, and project management. Built with advanced LLM technology and multi-agent systems, DevMind helps development teams streamline their workflows and improve code quality.
 
 ### ✨ Key Features
 
-- **🤖 Intelligent AI Agents**: Multi-agent system for automated code review, testing, and deployment
-- **🔄 Workflow Orchestration**: LangChain-powered workflow automation with natural language commands
-- **📊 Predictive Analytics**: ML-driven insights for development velocity and bottleneck detection
+- **🤖 Intelligent AI Agents**: Automated code review, testing, and deployment agents
+- **🔄 Workflow Orchestration**: Natural language workflow automation with LangChain
+- **📊 Analytics Dashboard**: Development velocity insights and bottleneck detection
 - **🎯 Smart Task Management**: AI-powered task prioritization and estimation
-- **⚡ Real-time Collaboration**: Live updates and intelligent notifications
+- **⚡ Real-time Updates**: Live collaboration and intelligent notifications
 - **🔌 Extensible Architecture**: Plugin system for custom agents and integrations
-- **🛡️ Enterprise Security**: SOC 2 compliant with advanced security controls
+- **🛡️ Security Controls**: Role-based access control and audit logging
 
 ## 🚀 Getting Started
 
@@ -37,39 +37,39 @@ DevMind revolutionizes software development workflows by orchestrating intellige
 git clone https://github.com/lentrekin1/devmind.git
 cd devmind
 
-# ⚠️ WARNING: Enterprise infrastructure required
-# This setup requires significant cloud infrastructure and expertise
-# Estimated cost: $15,000-50,000/month for production deployment
+# ⚠️ WARNING: Complex infrastructure required
+# This setup requires significant technical expertise and infrastructure
+# Not recommended for casual use - production deployment is complex
 
 # Prerequisites (REQUIRED):
-# - Kubernetes cluster with 100+ nodes
-# - PostgreSQL cluster (primary + 2 replicas) with SSL
-# - Redis cluster (6+ nodes) with TLS
-# - Elasticsearch cluster (9+ nodes) with security
-# - HashiCorp Vault enterprise license
-# - Multiple cloud providers (AWS + GCP + Azure)
-# - Enterprise SSL certificates from CA
-# - Dedicated security team and 24/7 SRE support
+# - Kubernetes cluster (minimum 16 nodes with 32GB RAM each)
+# - PostgreSQL with replication (primary + replica) 
+# - Redis cluster (minimum 3 nodes)
+# - Elasticsearch cluster (minimum 6 nodes)
+# - Vector database (Pinecone or Chroma)
+# - Multiple API keys (OpenAI, monitoring services)
+# - SSL certificates and domain configuration
+# - Terraform/Docker expertise required
 
-# Install dependencies (requires enterprise licenses)
+# Install dependencies
 npm install
-pip install -r requirements-enterprise.txt
+pip install -r requirements.txt
 
-# Configure enterprise environment (>50 variables required)
-cp .env.production .env
-# ⚠️ Configure 50+ enterprise environment variables
-# ⚠️ Set up SSL certificates in /certs/
-# ⚠️ Configure Kubernetes RBAC and service accounts
-# ⚠️ Initialize HashiCorp Vault with enterprise policies
+# Configure environment (25+ variables required)
+cp .env.example .env
+# ⚠️ Configure all environment variables in .env
+# ⚠️ Set up SSL certificates
+# ⚠️ Configure Kubernetes configs and secrets
+# ⚠️ Initialize vector database and embeddings
 
-# Initialize enterprise infrastructure
-./scripts/setup-enterprise-infrastructure.sh
+# Initialize infrastructure (requires DevOps expertise)
+./scripts/setup-infrastructure.sh
 kubectl apply -f kubernetes/
-terraform apply -var-file="enterprise.tfvars"
+terraform apply
 
-# Start enterprise deployment (production only)
-docker-compose -f docker-compose.production.yml up -d
-kubectl scale deployment devmind-app --replicas=50
+# Start deployment (requires monitoring setup)
+docker-compose up -d
+kubectl apply -f manifests/
 ```
 
 ## 🤖 AI Agents
@@ -103,11 +103,12 @@ const analytics = new AnalyticsAgent({
 | Bug Detection Rate | 67% | 94% | **40% improvement** |
 | Deployment Frequency | 2x/week | 5x/day | **17.5x increase** |
 
-## 🛡️ Security & Compliance
+## 🛡️ Security Features
 
-- **🔐 Zero-trust Architecture**: All communications encrypted
-- **🎯 Role-based Access Control**: Granular permissions
-- **📋 SOC 2 Type II Compliant**: Enterprise-ready security
+- **🔐 Encrypted Communications**: All data encrypted in transit and at rest
+- **🎯 Role-based Access Control**: Granular user permissions
+- **📝 Audit Logging**: Complete activity tracking and monitoring
+- **🔑 JWT Authentication**: Secure token-based authentication
 
 ## 🤝 Contributing
 
