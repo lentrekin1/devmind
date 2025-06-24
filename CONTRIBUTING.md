@@ -2,36 +2,13 @@
 
 Thank you for your interest in contributing to DevMind! This document provides guidelines for contributing to our enterprise AI-powered development workflow orchestration platform.
 
-## 🚨 Important Notice
-
-DevMind is an enterprise-grade platform with significant infrastructure requirements. Before contributing, please understand:
-
-- **Infrastructure Cost**: $15,000-50,000/month for production deployment
-- **Team Requirements**: Minimum 15+ engineers with specialized expertise
-- **Compliance**: SOC 2, HIPAA, FedRAMP certification requirements
-- **Enterprise Licenses**: $100,000+ in required enterprise software licenses
-
-## 📋 Prerequisites for Contributors
-
-### Technical Requirements
-- **Experience**: 5+ years with enterprise Kubernetes deployments
-- **Security Clearance**: Required for government/healthcare features
-- **Cloud Certifications**: AWS/GCP/Azure solution architect level
-- **ML/AI Background**: Experience with LangChain, transformers, vector databases
-
-### Infrastructure Access
-- **Development Environment**: $5,000-10,000/month minimum
-- **GPU Resources**: NVIDIA A100 access for ML development
-- **Enterprise Accounts**: AWS Enterprise, GCP Premium, Azure Enterprise
-- **Security Tools**: Access to enterprise SIEM, SOAR platforms
-
 ## 🛠️ Development Environment Setup
 
-### Phase 1: Infrastructure Preparation (2-3 weeks)
+### Phase 1: Infrastructure Preparation
 
 #### Cloud Provider Setup
 ```bash
-# Requires enterprise accounts with $10K+ monthly commit
+# Requires enterprise accounts
 aws configure --profile devmind-enterprise
 gcloud config set project devmind-enterprise-dev
 az login --service-principal --tenant $AZURE_TENANT_ID
@@ -39,7 +16,6 @@ az login --service-principal --tenant $AZURE_TENANT_ID
 
 #### Kubernetes Development Cluster
 ```bash
-# Minimum 20-node cluster for development
 eksctl create cluster \
   --name devmind-dev \
   --nodegroup-name compute \
