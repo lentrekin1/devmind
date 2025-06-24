@@ -29,7 +29,8 @@ export const defaultConfig: Partial<DevMindConfig> = {
     retryAttempts: 3,
   },
   monitoring: {
-    enabled: false,
+    enabled: true,
+    retryAttempts: 3,
   },
 };
 
