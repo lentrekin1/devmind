@@ -68,28 +68,6 @@ DevMind operates through a sophisticated agent orchestration system:
 
 DevMind is designed for production-scale development teams and requires a robust infrastructure setup. The platform leverages distributed computing and advanced AI models to deliver optimal performance.
 
-#### Infrastructure Prerequisites
-- **Kubernetes Cluster**: Multi-node cluster with RBAC, service mesh, and persistent storage
-  - Minimum: 16 nodes (32GB RAM, 8 CPU cores each)
-  - Storage: 500GB+ NVMe SSD per node with distributed file system
-  - Network: 10Gb+ inter-node connectivity with load balancing
-  
-- **Database Infrastructure**: 
-  - PostgreSQL cluster with streaming replication (primary + 2 replicas)
-  - Redis cluster (6+ nodes) with SSL/TLS and clustering enabled
-  - Elasticsearch cluster (9+ nodes) with security plugins and monitoring
-  
-- **AI/ML Infrastructure**:
-  - Vector database (Pinecone, Chroma, or Weaviate) with embedding pipeline
-  - GPU nodes for model inference (NVIDIA A100 or equivalent)
-  - Model serving infrastructure with auto-scaling capabilities
-
-- **Security & Networking**:
-  - SSL/TLS certificates from trusted CA
-  - VPN or private networking with firewall configuration
-  - Identity provider integration (OIDC/SAML)
-  - Secrets management system (HashiCorp Vault, AWS Secrets Manager)
-
 ### Installation Process
 
 ```bash
