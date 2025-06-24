@@ -360,13 +360,13 @@ We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for deta
 
 ## License
 
-DevMind is open-source software licensed under the [MIT License](LICENSE).
+DevMind is open-source software licensed under the MIT License.
 
 ---
 
 <div align="center">
 
-**[Documentation](#ai-agents)** • **[Report Issues](https://github.com/lentrekin1/devmind/issues)**
+**[Documentation](#ai-agents)**
 
 Made with love by the DevMind Team
 
