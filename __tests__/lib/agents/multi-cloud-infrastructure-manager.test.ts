@@ -242,3 +242,24 @@ describe('Multi-cloud Infrastructure ManagerAgent', () => {
   });
 
   describe('e...
+
+
+// FEATURE UPDATE: Multi-cloud Infrastructure Manager
+// Date: 2025-01-03
+import { Multi-cloudInfrastructureManagerAgent } from '@/lib/agents/multi-cloud-infrastructure-manager';
+
+describe('Multi-cloud Infrastructure ManagerAgent', () => {
+  let agent: Multi-cloudInfrastructureManagerAgent;
+
+  beforeEach(() => {
+    agent = new Multi-cloudInfrastructureManagerAgent({
+      name: 'Test Multi-cloud Infrastructure Manager Agent',
+      model: 'gpt-4',
+      temperature: 0.3,
+      maxTokens: 2000,
+      mode: 'basic',
+      features: ['core']
+    });
+  });
+
+  describe('e...

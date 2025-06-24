@@ -6,13 +6,11 @@
 
 **Intelligent workflow automation for development teams powered by AI agents**
 
-[![GitHub Stars](https://img.shields.io/github/stars/lentrekin1/devmind?style=social)](https://github.com/lentrekin1/devmind/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI/CD](https://github.com/lentrekin1/devmind/workflows/CI/badge.svg)](https://github.com/lentrekin1/devmind/actions)
-[![Coverage](https://codecov.io/gh/lentrekin1/devmind/branch/main/graph/badge.svg)](https://codecov.io/gh/lentrekin1/devmind)
-[![Discord](https://img.shields.io/discord/1234567890123456789?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/devmind)
+[![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)](https://github.com/lentrekin1/devmind)
 
-[🚀 Getting Started](#getting-started) • [📖 Documentation](https://docs.devmind.ai) • [💬 Community](https://discord.gg/devmind) • [🐛 Issues](https://github.com/lentrekin1/devmind/issues)
+[🚀 Getting Started](#getting-started) • [📖 Documentation](https://docs.devmind.ai) • [🐛 Issues](https://github.com/lentrekin1/devmind/issues)
 
 </div>
 
@@ -123,7 +121,7 @@ DevMind is open-source software licensed under the [MIT License](LICENSE).
 
 <div align="center">
 
-**[⭐ Star us on GitHub](https://github.com/lentrekin1/devmind)** • **[💬 Join Discord](https://discord.gg/devmind)** • **[📧 Enterprise Sales](mailto:enterprise@devmind.ai)**
+**[📖 Documentation](https://docs.devmind.ai)** • **[🐛 Report Issues](https://github.com/lentrekin1/devmind/issues)**
 
 Made with ❤️ by the DevMind Team
 

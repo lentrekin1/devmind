@@ -81,3 +81,35 @@ spec:
   selector:
     matchLabels:
       app: dev...
+
+
+// INFRASTRUCTURE UPDATE: Auto-scaling Groups
+// Date: 2024-12-27
+apiVersion: v1
+kind: Service
+metadata:
+  name: devmind-auto-scaling-groups
+  namespace: devmind-production
+  labels:
+    app: devmind
+    component: auto-scaling-groups
+spec:
+  selector:
+    app: devmind
+    component: auto-scaling-groups
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devmind-auto-scaling-groups
+  namespace: devmind-production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dev...
