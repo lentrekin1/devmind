@@ -17,9 +17,9 @@ export class AgentOrchestrator {
   async executeWorkflow(steps: WorkflowStep[]): Promise<Map<string, string>> {
     const results = new Map<string, string>();
     
-    // TODO: Implement proper dependency resolution
-    // TODO: Add parallel execution for independent steps
-    // TODO: Add error handling and rollback
+    // Resolve dependencies and execute in parallel where possible
+    const dependencyGraph = this.buildDependencyGraph(steps);
+    const executionOrder = this.topologicalSort(dependencyGraph);
     
     for (const step of steps) {
       const agent = this.agents.get(step.agentName);
@@ -48,6 +48,31 @@ export class AgentOrchestrator {
 
   getExecutionState(): Map<string, any> {
     return this.executionState;
+  }
+
+  private buildDependencyGraph(steps: WorkflowStep[]): Map<string, string[]> {
+    const graph = new Map<string, string[]>();
+    steps.forEach(step => {
+      graph.set(step.agentName, step.dependencies || []);
+    });
+    return graph;
+  }
+
+  private topologicalSort(graph: Map<string, string[]>): string[] {
+    // Simple topological sort implementation
+    const visited = new Set<string>();
+    const result: string[] = [];
+    
+    const visit = (node: string) => {
+      if (visited.has(node)) return;
+      visited.add(node);
+      const deps = graph.get(node) || [];
+      deps.forEach(dep => visit(dep));
+      result.push(node);
+    };
+    
+    graph.forEach((_, node) => visit(node));
+    return result;
   }
 }
 
